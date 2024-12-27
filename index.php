@@ -1,7 +1,12 @@
 <?php 
-    require_once "./Core/Core.php";
-    require_once "./Controller/HomeController.php";
-    require_once "./Controller/ErroController.php";
+    // Ativar a exibição de erros no PHP
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    
+    //No autoload está configurado para carregar todas as pastas mais importantes, deixando o código mais limpo
+    require_once './vendor/autoload.php';
+    use App\Core\Core;
 
     $home = file_get_contents("./View/home.php");
     
@@ -15,4 +20,5 @@
 
     ob_end_clean();
 
+    $home = str_replace("{{variavel}}", $retornoController, $home);
     echo $home;
