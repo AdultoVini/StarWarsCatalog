@@ -6,12 +6,22 @@
         public function start($url){
             
             //Aqui eu verifico se a pagina está vazia, caso esteja redireciono para a home.
-            $controller = empty($url['pagina']) ? "App\\Controller\\HomeController" : "App\\Controller\\" . ucfirst($url['pagina'])."Controller";
+            if(isset($url['pagina'])){
 
-            $metodo = "index";
+                $controller = "App\\Controller\\" . ucfirst($url['pagina'])."Controller";
+
+                //Aqui verifico se existe a solicitação de algum metodo em especifico
+                $metodo = empty($url['metodo']) ? "index" : $url['metodo'];
+
+            }else{
+
+                $controller = "App\\Controller\\HomeController";
+                $metodo = "index";
+            }
             
             if(!class_exists($controller)){
-                $controller = "ErroController";
+                $controller = "App\\Controller\\ErroController";
+                $metodo = "index";
             }
             
             call_user_func_array(array(new $controller, $metodo), array());

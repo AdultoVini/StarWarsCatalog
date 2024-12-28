@@ -18,7 +18,7 @@
             $query = $connect->prepare($query);
             $query->execute();
 
-            while($item = $query->fetchObject('App\Model\LogRequest')){
+            while($item = $query->fetchObject('App\\Model\\LogRequest')){
                 array_push($Logs, $item);
             }
             
@@ -37,7 +37,7 @@
             $query->bindValue(":LOG_ID", $id, PDO::PARAM_INT);
             $query->execute();
 
-            $Log = $query->fetchObject('App\Model\LogRequest');
+            $Log = $query->fetchObject('App\\Model\\LogRequest');
             
             if(empty($Log)){
                 throw new Exception("Nenhum log encontrado");
