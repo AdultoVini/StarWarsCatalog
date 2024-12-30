@@ -3,36 +3,47 @@
     require_once './vendor/autoload.php';
     use App\Core\Core;
 
-    // Ativar a exibição de erros no PHP
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
     
-
-    $home = file_get_contents("./View/Estrutura/home.php");
-
-    switch($_GET["api"] ?? "false"){
-        case "true":
-
-            $core = new Core;
-            $core->start($_GET);
-
-            break;
-        default:
+    // Obter a URI e remover base path
+    $requestUri = trim($_SERVER['REQUEST_URI'], '/');
+    $basePath = 'StarWarsCatalogo';
+    $requestUri = str_replace($basePath, '', $requestUri);
+    $requestUri = trim($requestUri, '/');
+    
+    // Dividi a URI em partes
+    $urlParts = explode('/', $requestUri);
+    
+    // Defini valores padrão para a página inicial
+    if (empty($urlParts[0])) {
+        $urlParts[0] = 'home'; 
+    }
+    
+    //Aqui caso seja Api não carrega a pagina inicial
+    if ($urlParts[0] === 'api') {
+        $core = new Core();
+        $core->start([
+            'pagina' => $urlParts[1] ?? 'home',
+            'metodo' => $urlParts[2] ?? 'index',
+            'api' => 'true',
+        ]);
+    } else {
         
-            // A função ob_start e ob_end_clean capturam todo o conteudo que é retornado entre elas
-            ob_start();
-
-            $core = new Core;
-            $core->start($_GET);
-
-            $retornoController = ob_get_contents();
-
-            ob_end_clean();
-
-            $home = str_replace("{{content}}", $retornoController, $home);
-            echo $home;
-
-            break;
+        ob_start();
+    
+        $core = new Core();
+        $core->start([
+            'pagina' => $urlParts[0] ?? 'home',
+            'metodo' => $urlParts[1] ?? 'index',
+        ]);
+    
+        $retornoController = ob_get_contents();
+        ob_end_clean();
+    
+        $home = file_get_contents("./View/Estrutura/home.php");
+        $home = str_replace("{{content}}", $retornoController, $home);
+        echo $home;
     }
    

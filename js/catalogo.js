@@ -3,15 +3,14 @@ $(document).ready(function() {
 });
 
 function carregarCatalogos(){
-    
+
     $.ajax({
-        url: '/StarWarsCatalogo/?pagina=home&metodo=carregarCatalogos&api=true',
+        url: '/StarWarsCatalogo/api/home/carregarCatalogos',
         type: 'GET',
         method: 'GET',
         dataType: 'html',
-        cache: false,
         success: function (response) {
-
+            
             $("#lista-filmes").html(response);
         },
         error: function (err) {

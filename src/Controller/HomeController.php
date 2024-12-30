@@ -29,9 +29,9 @@
 
         public function carregarCatalogos(){
             try {
-                header('Content-Type: application/html');
+                header('Content-Type: text/html');
                 
-                $movies["movies"] = $this->GetMoviesApi();
+                $movies = ["movies" => $this->GetMoviesApi()];
 
                 if($movies == false){
 
