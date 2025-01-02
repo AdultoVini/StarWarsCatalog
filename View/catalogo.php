@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div id="container-lista" class="container mt-3">
     <div id="lista-filmes" class="row">
         
     </div>

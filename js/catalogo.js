@@ -5,7 +5,7 @@ $(document).ready(function() {
 function carregarCatalogos(){
 
     $.ajax({
-        url: '/StarWarsCatalogo/api/home/carregarCatalogos',
+        url: '/StarWarsCatalogo/api/filmes/carregarCatalogos',
         type: 'GET',
         method: 'GET',
         dataType: 'html',

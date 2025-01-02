@@ -8,4 +8,4 @@ RewriteRule ^(Style|js|image|vendor|View)/(.*)$ - [L]
 RewriteRule ^api/(.*)$ index.php?api=true&$1 [L]
 
 # Redireciona todas as outras URLs para o index com o parâmetro pagina
-RewriteRule ^(.*)$ index.php?pagina=$1 [L]
+RewriteRule ^(.*)$ index.php?pagina=$1 [QSA,L]

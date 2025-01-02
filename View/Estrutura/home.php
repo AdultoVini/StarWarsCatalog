@@ -12,7 +12,7 @@
 </head>
 <body>
     <header id="header">
-        <a id="link-logo">
+        <a id="link-logo" href="/StarWarsCatalogo">
             <img src="./Style/images/logostarwars.png" id="logo"/>
         </a>
     </header>

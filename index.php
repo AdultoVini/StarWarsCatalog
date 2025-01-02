@@ -12,7 +12,7 @@
     $basePath = 'StarWarsCatalogo';
     $requestUri = str_replace($basePath, '', $requestUri);
     $requestUri = trim($requestUri, '/');
-    
+
     // Dividi a URI em partes
     $urlParts = explode('/', $requestUri);
     
@@ -31,12 +31,15 @@
         ]);
     } else {
         
+        $urlParts[0] = explode('?', $urlParts[0])[0];
+        
         ob_start();
-    
+        
         $core = new Core();
         $core->start([
             'pagina' => $urlParts[0] ?? 'home',
             'metodo' => $urlParts[1] ?? 'index',
+            'id' => $_GET['id'] ?? null
         ]);
     
         $retornoController = ob_get_contents();

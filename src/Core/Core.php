@@ -5,6 +5,7 @@
 
         public function start($url){
 
+            $params = array();
             $pagina = isset($url['pagina']) ? $url['pagina'] : 'home';
             
             $controller = "App\\Controller\\" . ucfirst($pagina) . "Controller";
@@ -22,8 +23,13 @@
 
                 $metodo = "index"; 
             }
+           
+            if(!empty($url["id"])){
+
+                array_push($params, $url);
+            }
             
-            call_user_func_array(array(new $controller, $metodo), array());
+            call_user_func_array(array(new $controller, $metodo), $params);
     
         }
     }

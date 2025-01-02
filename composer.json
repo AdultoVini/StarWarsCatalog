@@ -1,6 +1,9 @@
 {
     "require": {
-        "twig/twig": "^3.11"
+        "twig/twig": "^3.11",
+        "guzzlehttp/guzzle": "^7.9",
+        "guzzlehttp/promises": "^1.5",
+        "stichoza/google-translate-php": "^4.1"
     },
     "autoload": {
         "psr-4": {
