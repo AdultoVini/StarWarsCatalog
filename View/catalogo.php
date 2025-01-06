@@ -1,5 +1,5 @@
-<div id="container-lista" class="container mt-3">
-    <div id="lista-filmes" class="row">
+<div id="" class="container mt-3">
+    <div id="lista-filmes" class="row d-flex justify-content-center">
         
     </div>
 </div>

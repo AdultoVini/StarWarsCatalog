@@ -28,6 +28,7 @@
             'pagina' => $urlParts[1] ?? 'home',
             'metodo' => $urlParts[2] ?? 'index',
             'api' => 'true',
+            'id' => $_GET['id'] ?? null
         ]);
     } else {
         

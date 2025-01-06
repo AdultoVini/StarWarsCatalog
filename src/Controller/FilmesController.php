@@ -11,19 +11,19 @@
         public function index($url){
 
             try {
+                //Aqui eu uso a biblioteca Twig para poder carregar as views com os dados.
+                $loader = new \Twig\Loader\FilesystemLoader("./View");
+                $twig = new \Twig\Environment($loader);
+
                 $movie = [];
 
                 $id = $url['id'];
 
                 //Pego os dados gerais do filme
                 $dados = $this->GetMoviesApi($id);
-                //Pego todos os personagens do filme
-                $characters = $this->CharactersFormat($dados->properties->characters);
 
-                //Calculo a idade do filme
-                $dataAtual = new DateTime();
-                $lancFilme = new DateTime($dados->properties->release_date);
-                $idade = $lancFilme->diff($dataAtual);
+                //Calculo a idade do filme e formato as mesmas
+                $idadeFilme = $this->CalcularIdade($dados->properties->release_date);
 
                 //traduz texto
                 $tr = new GoogleTranslate();
@@ -32,16 +32,21 @@
                 $tr->setTarget('pt-br'); 
 
                 $movie = [
+                    'uid' => $id,
                     'nome' => $dados->properties->title,
                     'episodio' => $dados->properties->episode_id,
                     'diretor' => $dados->properties->director,
                     'produtores' => $dados->properties->producer,
                     'sinopse' => $tr->translate($dados->properties->opening_crawl),
-                    'personagens' => $characters,
-                    'idade' => ['anos' => $idade->y, 'meses' => $idade->m, 'dias' => $idade->d]
+                    'idade' => $idadeFilme
                     
                 ];
-                print_r($movie);
+               
+                $view = $twig->load("filme_detalhes.php");
+                $view = $view->render($movie);
+
+                echo $view;
+                // print_r($movie);
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -121,7 +126,7 @@
             }
         }
 
-        public function CharactersFormat($urls){
+        public function DetailsSwapiFormat($urls){
             $client = new Client();
 
             $promises = [];
@@ -146,5 +151,39 @@
             $nomes = implode(", ", $results);
 
             return $nomes;
+        }
+
+        public function CalcularIdade($ano){
+
+            $dataAtual = new DateTime();
+            $lancFilme = new DateTime($ano);
+            $idade = $lancFilme->diff($dataAtual);
+
+            $anos = $idade->y == 1 ? $idade->y . " Ano" : $idade->y . " Anos";
+            $meses = $idade->m == 1 ? $idade->m . " Mês" : $idade->m . " Meses";
+            $dias = $idade->d == 1 ? $idade->d . " Dia" : $idade->d . " Dias";
+
+            return $idadeFinal = $anos . ", " . $meses . " e " . $dias;
+        }
+        
+        public function CarregarDetalhesFilme(){
+            $id = $_POST['id'];
+
+            $dados = $this->GetMoviesApi($id);
+
+            //Pego todos os personagens, planetas, veiculos e naves do filme
+            $characters = $this->DetailsSwapiFormat($dados->properties->characters);
+            $planetas = $this->DetailsSwapiFormat($dados->properties->planets);
+            $veiculos = $this->DetailsSwapiFormat($dados->properties->vehicles);
+            $starships = $this->DetailsSwapiFormat($dados->properties->starships);
+
+            $detalhes = [
+                'personagens' => $characters,
+                'planetas' => $planetas,
+                'veiculos' => $veiculos,
+                'starships' => $starships,
+            ];
+
+            echo json_encode($detalhes);
         }
     }
