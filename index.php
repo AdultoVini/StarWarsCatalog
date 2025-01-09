@@ -20,20 +20,23 @@
     if (empty($urlParts[0])) {
         $urlParts[0] = 'home'; 
     }
-    
+  
     //Aqui caso seja Api não carrega a pagina inicial
     if ($urlParts[0] === 'api') {
+
         $core = new Core();
+
         $core->start([
             'pagina' => $urlParts[1] ?? 'home',
-            'metodo' => $urlParts[2] ?? 'index',
+            'metodo' => explode("?", $urlParts[2])[0] ?? 'index',
             'api' => 'true',
             'id' => $_GET['id'] ?? null
         ]);
+
     } else {
         
         $urlParts[0] = explode('?', $urlParts[0])[0];
-        
+
         ob_start();
         
         $core = new Core();

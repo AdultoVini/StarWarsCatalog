@@ -6,9 +6,31 @@
 
     class LogRequest{
         public int $LOG_ID;
-        public String$LOG_Solicitacao;
+        public String $LOG_Solicitacao;
         public String $LOG_Metodo;
         public String $LOG_Data;
+
+        public static function InsertLog($dados){
+            $connect = Connection::GetConnection();
+
+            $query = "INSERT INTO log_api_requests (LOG_Solicitacao, LOG_Metodo) VALUES (:soli, :metodo)";
+
+            $query = $connect->prepare($query);
+            
+            $query->bindValue(":soli", $dados['LOG_Solicitacao'], PDO::PARAM_STR);
+            $query->bindValue(":metodo", $dados['LOG_Metodo'], PDO::PARAM_STR);
+
+            $res = $query->execute();
+           
+            if($res == 0){
+                
+                throw new Exception("Erro ao inserir log!");
+
+                return false;
+            }
+
+            return true;
+        }
 
         public static function GetAllLogs(){
             $connect = Connection::GetConnection();

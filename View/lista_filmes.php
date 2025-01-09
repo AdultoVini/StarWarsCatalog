@@ -1,4 +1,4 @@
-<div class="row d-flex w-fit">
+<div class="row d-flex justify-content-between" style="width: 800px">
 {% for m in movies %}
     <a class="links-filmes" href="/StarWarsCatalogo/filmes?id={{m.uid}}">
         <div class="container-cartaz">

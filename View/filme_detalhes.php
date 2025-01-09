@@ -1,4 +1,4 @@
-<div class="container d-flex align-items-center flex-column mt-3">
+<div id="background-detalhe" class="container d-flex align-items-center flex-column mt-3">
     <div class="mb-5">
         <h2 style="font-family: 'Star Wars', sans-serif ">Star Wars {{nome}}</h2>
     </div>

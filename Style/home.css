@@ -101,7 +101,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover; 
     background-position: center; 
-    width: 160px;
+    width: 167px;
     border-radius: 5%;
     margin-bottom: 5px;
 }
@@ -132,4 +132,10 @@ body{
 
 .line-18px{
     line-height: 18px;
+}
+
+#background-detalhe{
+    background: #0000006b;
+    border-radius: 2%;
+    padding: 10px;
 }

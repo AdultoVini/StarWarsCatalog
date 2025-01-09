@@ -5,7 +5,7 @@ RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(Style|js|image|vendor|View)/(.*)$ - [L]
 
 # Redireciona URLs que começam com "api/" para o index com o parâmetro api=true
-RewriteRule ^api/(.*)$ index.php?api=true&$1 [L]
+RewriteRule ^api/(.*)$ index.php?api=true&$1 [QSA,L]
 
 # Redireciona todas as outras URLs para o index com o parâmetro pagina
 RewriteRule ^(.*)$ index.php?pagina=$1 [QSA,L]

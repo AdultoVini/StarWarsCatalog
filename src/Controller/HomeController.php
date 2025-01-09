@@ -10,8 +10,6 @@
         public function index(){
             
             try {
-                // $Logs["Logs"] = LogRequest::GetAllLogs();
-                
                 //Aqui eu uso a biblioteca Twig para poder carregar as views com os dados.
                 $loader = new \Twig\Loader\FilesystemLoader("./View");
                 $twig = new \Twig\Environment($loader);

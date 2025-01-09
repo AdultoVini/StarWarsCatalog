@@ -22,8 +22,8 @@ function carregarDetalhes(){
     
     $.ajax({
         url: '/StarWarsCatalogo/api/filmes/CarregarDetalhesFilme',
-        type: 'POST',
-        method: 'POST',
+        type: 'GET',
+        method: 'GET',
         dataType: 'json',
         data: {
             id: id

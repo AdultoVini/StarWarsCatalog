@@ -5,6 +5,7 @@
     use GuzzleHttp\Client;
     use GuzzleHttp\Promise;
     use Stichoza\GoogleTranslate\GoogleTranslate;
+    use App\Model\LogRequest;
 
     class FilmesController{
 
@@ -20,7 +21,7 @@
                 $id = $url['id'];
 
                 //Pego os dados gerais do filme
-                $dados = $this->GetMoviesApi($id);
+                $dados = $this->GetMoviesApi($id, false);
 
                 //Calculo a idade do filme e formato as mesmas
                 $idadeFilme = $this->CalcularIdade($dados->properties->release_date);
@@ -46,7 +47,7 @@
                 $view = $view->render($movie);
 
                 echo $view;
-                // print_r($movie);
+                
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -86,14 +87,21 @@
             }
         }
 
-        public function GetMoviesApi($id = null){
+        public function GetMoviesApi($id = null, $log = true){
 
             try {
-
+                
                 $urlGet = "https://www.swapi.tech/api/films";
 
+                $dadosLog = [
+                    "LOG_Solicitacao" => "FilmList",
+                    "LOG_Metodo" => "GET"
+                ];
+                
                 if($id != null){
                     $urlGet .= "/" .$id;
+
+                    $dadosLog['LOG_Solicitacao'] = "FilmDetails";
                 }
                 
                 $c = curl_init();
@@ -114,6 +122,8 @@
 
                 curl_close($c);
 
+                if($log == true) LogRequest::InsertLog($dadosLog);
+
                 return $response;
 
             } catch (Exception $e) {
@@ -121,8 +131,6 @@
                 echo $e->getMessage();
 
                 return false;
-
-                exit; 
             }
         }
 
@@ -166,8 +174,9 @@
             return $idadeFinal = $anos . ", " . $meses . " e " . $dias;
         }
         
-        public function CarregarDetalhesFilme(){
-            $id = $_POST['id'];
+        public function CarregarDetalhesFilme($url){
+    
+            $id = $url['id'];
 
             $dados = $this->GetMoviesApi($id);
 

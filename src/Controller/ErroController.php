@@ -4,6 +4,6 @@
     class ErroController{
         
         public function index(){
-            echo "Pagina erro";
+            echo "Pagina não encontrada!";
         }
     }

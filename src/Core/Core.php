@@ -28,7 +28,7 @@
 
                 array_push($params, $url);
             }
-            
+          
             call_user_func_array(array(new $controller, $metodo), $params);
     
         }
